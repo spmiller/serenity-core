@@ -213,6 +213,7 @@ public class WhenRecordingStepExecutionResultsForNonWebTests {
     }
 
     @Test
+
     public void if_all_child_steps_are_ignored_the_overall_step_should_be_ignored() {
 
         StepEventBus.getEventBus().testSuiteStarted(MyTestCase.class);
