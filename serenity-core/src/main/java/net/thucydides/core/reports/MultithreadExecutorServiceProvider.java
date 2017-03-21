@@ -27,7 +27,16 @@ public class MultithreadExecutorServiceProvider implements ExecutorServiceProvid
     @Override
     public ExecutorService getExecutorService() {
         if (executorService == null)  {
-            executorService = Executors.newFixedThreadPool(maximumPoolSize);
+            executorService = Executors.newFixedThreadPool(maximumPoolSize, new ThreadFactory() {
+                @Override
+                public Thread newThread(Runnable runnable) {
+                    Thread thread = new Thread(runnable);
+                    thread.setDaemon(true);
+                    return thread;
+                }
+
+
+            });
         }
         return executorService;
     }

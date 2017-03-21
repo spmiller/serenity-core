@@ -26,7 +26,14 @@ class Reporter {
 
     private final EnvironmentVariables environmentVariables = Injectors.getInjector().getInstance(EnvironmentVariables.class);
 
-    private final ExecutorService executorPool = Executors.newFixedThreadPool(NumberOfThreads.forIOOperations());
+    private final ExecutorService executorPool = Executors.newFixedThreadPool(NumberOfThreads.forIOOperations(), new ThreadFactory() {
+        @Override
+        public Thread newThread(Runnable runnable) {
+            Thread thread = new Thread(runnable);
+            thread.setDaemon(true);
+            return thread;
+        }
+    });
 
     Reporter(Collection<ReportingTask> reportingTasks) {
         this.reportingTasks = reportingTasks;
